@@ -13,6 +13,8 @@ const dbcollectionName = 'articles';
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use(express.static("/public"));
+
 
 const withDB = async (operations, res) => {
     try {
@@ -27,9 +29,9 @@ const withDB = async (operations, res) => {
 }
 
 
-app.get('/', (req, res) => {
-    res.send('Hellowww !')
-});
+// app.get('/', (req, res) => {
+//     res.send('Hellowww !')
+// });
 
 
 app.get('/api/articles/:name', (req,res) => {
@@ -70,6 +72,10 @@ app.post('/api/articles/:name/add-comment', (req,res) => {
         const updatedArticleInfo = await db.collection(dbcollectionName).findOne({name: articleName});
         res.status(200).json(updatedArticleInfo);
     }, res);
+});
+
+app.get('*', (req, res) => {
+    res.sendFile("/public/index.html");
 });
 
 
