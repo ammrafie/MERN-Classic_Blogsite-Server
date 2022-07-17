@@ -2,6 +2,7 @@ const express = require('express');
 const {MongoClient} = require('mongodb');
 const bodyParser = require('body-parser');
 const cors = require("cors");
+const path = require('path');
 require('dotenv').config()
 
 const app = express();
@@ -13,7 +14,7 @@ const dbcollectionName = 'articles';
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(express.static("/public"));
+app.use(express.static(path.join(__dirname, '/public')));
 
 
 const withDB = async (operations, res) => {
@@ -75,7 +76,7 @@ app.post('/api/articles/:name/add-comment', (req,res) => {
 });
 
 app.get('*', (req, res) => {
-    res.sendFile("/public/index.html");
+    res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 
